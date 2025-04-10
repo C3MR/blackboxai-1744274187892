@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الطلبات - نظام CRM العقاري</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-['Noto_Kufi_Arabic']">
+    <!-- Navbar -->
+    <nav class="bg-indigo-800 text-white shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <i class="fas fa-building ml-2"></i>
+                        <span class="text-xl font-semibold">نظام CRM العقاري</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-4 space-x-reverse">
+                    <a href="../index.html" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-home ml-1"></i>الرئيسية
+                    </a>
+                    <a href="leads.html" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-users ml-1"></i>العملاء
+                    </a>
+                    <a href="#" class="px-3 py-2 rounded bg-indigo-700">
+                        <i class="fas fa-clipboard-list ml-1"></i>الطلبات
+                    </a>
+                    <a href="tasks.html" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-tasks ml-1"></i>المهام
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 space-x-reverse focus:outline-none">
+                            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="hidden md:block">اسم المستخدم</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-indigo-800 text-white p-4">
+                        <i class="fas fa-tachometer-alt ml-2"></i>
+                        لوحة التحكم
+                    </div>
+                    <div class="p-2">
+                        <a href="../index.html" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-home ml-2"></i>الرئيسية
+                        </a>
+                        <a href="leads.html" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-users ml-2"></i>العملاء المحتملون
+                        </a>
+                        <a href="#" class="block px-4 py-2 bg-indigo-100 text-indigo-800 rounded transition">
+                            <i class="fas fa-clipboard-list ml-2"></i>إدارة الطلبات
+                        </a>
+                        <a href="meetings.html" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-handshake ml-2"></i>إدارة الاجتماعات
+                        </a>
+                        <a href="tasks.html" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-tasks ml-2"></i>إدارة المهام
+                        </a>
+                        <a href="reports.html" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-chart-line ml-2"></i>التقارير
+                        </a>
+                        <a href="settings.html" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-cog ml-2"></i>الإعدادات
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-3">
+                <!-- Add Request Form -->
+                <div id="add-request-form" class="bg-white rounded-lg shadow-md p-6 mb-6 hidden">
+                    <h3 class="text-lg font-semibold mb-4">إضافة طلب جديد</h3>
+                    <form id="requestForm" onsubmit="return false;">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">العميل<span class="text-red-500">*</span></label>
+                                <select class="w-full border border-gray-300 rounded px-3 py-2" required>
+                                    <option value="">اختر العميل...</option>
+                                    <option>محمد أحمد</option>
+                                    <option>سارة خالد</option>
+                                    <option>عبدالله فهد</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">نوع العقار<span class="text-red-500">*</span></label>
+                                <select class="w-full border border-gray-300 rounded px-3 py-2" required>
+                                    <option value="">اختر النوع...</option>
+                                    <option>شقة</option>
+                                    <option>فيلا</option>
+                                    <option>أرض</option>
+                                    <option>مكتب</option>
+                                    <option>محل تجاري</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">المنطقة<span class="text-red-500">*</span></label>
+                                <input type="text" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">الميزانية<span class="text-red-500">*</span></label>
+                                <input type="number" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-gray-700 mb-2">تفاصيل إضافية</label>
+                                <textarea class="w-full border border-gray-300 rounded px-3 py-2" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-end space-x-2 space-x-reverse">
+                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+                                حفظ
+                            </button>
+                            <button type="button" onclick="document.getElementById('add-request-form').classList.add('hidden')" 
+                                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">
+                                إلغاء
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Requests Table -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold text-gray-800">
+                                <i class="fas fa-clipboard-list ml-2"></i>
+                                قائمة الطلبات
+                            </h2>
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
+                                    onclick="document.getElementById('add-request-form').classList.remove('hidden')">
+                                <i class="fas fa-plus ml-1"></i>
+                                إضافة طلب
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            رقم الطلب
+                                        </th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            العميل
+                                        </th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            نوع العقار
+                                        </th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            المنطقة
+                                        </th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            الحالة
+                                        </th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            الإجراءات
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">REQ-001</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">محمد أحمد</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">فيلا</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">الرياض - الياسمين</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                قيد البحث
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <button class="text-indigo-600 hover:text-indigo-900 ml-2">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-indigo-600 hover:text-indigo-900 ml-2">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-900">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Add more rows as needed -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
