@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام متابعة المهام والاتصالات</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Kufi Arabic', sans-serif; /* تطبيق الخط الجديد */
+            color: #2c2c2c; /* اللون الرمادي الداكن للنصوص */
+            background-color: #f8f9fa; /* لون خلفية فاتح قليلاً */
+        }
+
+        /* --- تخصيص ألوان الـ Navbar --- */
+        .navbar {
+            background-color: #4f5b93; /* اللون المكمل */
+        }
+        .navbar .navbar-brand,
+        .navbar .nav-link {
+            color: #ffffff;
+        }
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: #f0f0f0; /* لون أفتح قليلاً عند المرور والتفعيل */
+            font-weight: 600; /* تمييز الرابط النشط */
+        }
+        .navbar .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .navbar .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        /* User Profile Dropdown Enhancements */
+        .dropdown-profile-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 8px;
+            vertical-align: middle;
+            background-color: #ccc; /* Placeholder background */
+            display: inline-block;
+            /* Add background-image here when real image is available */
+        }
+        .dropdown-item-profile {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+        }
+         .dropdown-item-profile div {
+             line-height: 1.2;
+         }
+        .profile-name {
+             font-weight: 600;
+             color: #2c2c2c;
+             display: block;
+        }
+         .profile-phone {
+             font-size: 0.8rem;
+             color: #6c757d;
+             display: block;
+         }
+
+        /* --- تخصيص ألوان الشريط الجانبي --- */
+        .sidebar .card-header {
+             background-color: #4f5b93; /* اللون المكمل */
+             color: #ffffff;
+             font-weight: 600;
+        }
+        .sidebar .list-group-item {
+            color: #2c2c2c; /* لون النص الافتراضي */
+            border: none; /* إزالة الحدود الافتراضية */
+            padding-top: 0.8rem; /* زيادة المسافة العمودية قليلاً */
+            padding-bottom: 0.8rem;
+            font-weight: 500; /* وزن خط متوسط */
+        }
+        .sidebar .list-group-item:hover {
+            background-color: #e9ecef; /* لون خلفية خفيف عند المرور */
+            color: #000;
+        }
+        .sidebar .list-group-item.active {
+            background-color: #b3a07f; /* اللون الأساسي للخلفية النشطة */
+            color: #ffffff; /* لون النص أبيض للعنصر النشط */
+            border-right: 4px solid #4f5b93; /* إضافة حد جانبي للتمييز */
+            font-weight: 700; /* خط أعرض للعنصر النشط */
+        }
+        .sidebar .list-group-item i {
+            width: 20px; /* تحديد عرض ثابت للأيقونات للمحاذاة */
+            text-align: center;
+            margin-left: 8px; /* مسافة بين الأيقونة والنص */
+        }
+
+        /* --- تخصيص ألوان الأزرار --- */
+        .btn-primary-custom {
+            background-color: #b3a07f; /* اللون الأساسي */
+            border-color: #b3a07f;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.4rem 1rem; /* تعديل حجم البادينج */
+        }
+        .btn-primary-custom:hover {
+            background-color: #9e8a6a; /* درجة أغمق من اللون الأساسي */
+            border-color: #9e8a6a;
+            color: #ffffff;
+        }
+        .btn-secondary-custom {
+             background-color: #6c757d; /* رمادي Bootstrap القياسي */
+             border-color: #6c757d;
+             color: #ffffff;
+             font-weight: 600;
+             padding: 0.4rem 1rem;
+        }
+         .btn-secondary-custom:hover {
+             background-color: #5a6268;
+             border-color: #5a6268;
+             color: #ffffff;
+         }
+         /* تخصيص أزرار الإجراءات الصغيرة في الجداول */
+         .table .btn-sm {
+             padding: 0.2rem 0.5rem; /* حجم أصغر */
+             font-size: 0.8rem;
+         }
+         .btn-outline-primary { /* يستخدم الآن للون الأساسي */
+             border-color: #b3a07f;
+             color: #b3a07f;
+         }
+         .btn-outline-primary:hover {
+             background-color: #b3a07f;
+             color: #ffffff;
+         }
+         .btn-outline-danger {
+             border-color: #dc3545;
+             color: #dc3545;
+         }
+          .btn-outline-danger:hover {
+             background-color: #dc3545;
+             color: #ffffff;
+         }
+         .btn-outline-info { /* زر العرض */
+              border-color: #0dcaf0;
+              color: #0dcaf0;
+         }
+         .btn-outline-info:hover {
+              background-color: #0dcaf0;
+              color: #ffffff;
+         }
+          .btn-outline-success { /* زر الإكمال */
+              border-color: #198754;
+              color: #198754;
+         }
+         .btn-outline-success:hover {
+              background-color: #198754;
+              color: #ffffff;
+         }
+         /* زر مخطط مخصص للون الرمادي الداكن (للعرض والتعديل) */
+         .btn-outline-dark-custom {
+              border-color: #2c2c2c;
+              color: #2c2c2c;
+         }
+         .btn-outline-dark-custom:hover {
+              background-color: #2c2c2c;
+              color: #ffffff;
+         }
+
+
+        /* --- تخصيص ألوان العناوين والبطاقات --- */
+        .content-section h2 {
+            color: #4f5b93; /* اللون المكمل للعناوين الرئيسية في المحتوى */
+            font-weight: 700;
+            border-bottom: 2px solid #e0e0e0; /* خط خفيف أسفل العنوان */
+            padding-bottom: 0.5rem;
+            display: flex; /* لتمكين محاذاة الأزرار بجانب العنوان */
+            justify-content: space-between; /* لوضع الأزرار في النهاية */
+            align-items: center;
+        }
+        .content-section h2 .report-actions button { /* أزرار الطباعة والتصدير */
+             margin-right: 0.5rem;
+        }
+        .card {
+            border: none; /* إزالة الحدود الافتراضية للبطاقات */
+            border-radius: 0.5rem; /* زوايا أكثر دائرية */
+        }
+        .card-header {
+             background-color: #ffffff; /* خلفية بيضاء لرؤوس البطاقات */
+             color: #4f5b93; /* لون النص المكمل */
+             font-weight: 600;
+             border-bottom: 1px solid #dee2e6; /* خط فاصل */
+             padding: 0.8rem 1.25rem;
+        }
+        .card-header i { /* أيقونة رأس البطاقة */
+             margin-left: 8px;
+        }
+        .card-body {
+             padding: 1.25rem;
+        }
+        /* بطاقات الإحصائيات */
+        .stats-card .display-6, .report-kpi .display-6 {
+             color: #2c2c2c; /* لون رمادي داكن للأرقام */
+             font-weight: 700;
+        }
+         .stats-card p, .report-kpi p {
+             color: #6c757d; /* لون رمادي للنص أسفل الرقم */
+             font-size: 0.9rem;
+         }
+         .stats-card i, .report-kpi i { /* أيقونة بطاقة الإحصائيات/التقرير */
+             font-size: 1.5rem; /* حجم أكبر للأيقونة */
+             color: #b3a07f; /* اللون الأساسي للأيقونة */
+             margin-bottom: 0.5rem;
+         }
+
+        /* --- إعدادات التجاوب --- */
+        @media (max-width: 576px) {
+            .display-6 {
+                font-size: 2rem; /* تصغير حجم خط الأرقام في الإحصائيات */
+            }
+            .content-section h2 {
+                font-size: 1.5rem; /* تصغير حجم عناوين الأقسام */
+                flex-direction: column; /* جعل العنوان والأزرار تحت بعض */
+                align-items: flex-start;
+            }
+             .content-section h2 .report-actions {
+                margin-top: 0.5rem; /* إضافة مسافة بين العنوان والأزرار */
+             }
+             .content-section h2 .report-actions button {
+                 margin-right: 0;
+                 margin-left: 0.5rem; /* عكس الهامش في RTL */
+             }
+            .stats-card i, .report-kpi i {
+                 font-size: 1.2rem; /* تصغير أيقونة الإحصائيات */
+            }
+            /* جعل أعمدة النموذج تأخذ العرض الكامل في الشاشات الصغيرة */
+            .form-section .col-md-6 {
+                width: 100%;
+            }
+        }
+
+        /* --- إعدادات إظهار/إخفاء --- */
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .form-section {
+            display: none; /* استخدام d-none من Bootstrap أفضل */
+        }
+        .form-section.active {
+            display: block;
+        }
+
+        /* --- تنسيق مخصص للـ Badges --- */
+        .badge {
+            font-size: 0.8em;
+            padding: 0.4em 0.6em;
+            font-weight: 600; /* جعل الخط أعرض قليلاً */
+        }
+        /* شارات الحالة للطلبات */
+        .badge-status-new { background-color: #4f5b93; color: #ffffff; }
+        .badge-status-progress { background-color: #b3a07f; color: #ffffff; }
+        .badge-status-found { background-color: #198754; color: #ffffff; }
+        .badge-status-canceled { background-color: #6c757d; color: #ffffff; }
+         /* شارات الحالة للاجتماعات */
+        .badge-meeting-scheduled { background-color: #4f5b93; color: #ffffff; } /* أزرق مكمل */
+        .badge-meeting-completed { background-color: #198754; color: #ffffff; } /* أخضر */
+        .badge-meeting-canceled { background-color: #6c757d; color: #ffffff; } /* رمادي */
+         /* شارات الأولوية للمهام */
+         .badge-priority-high { background-color: #dc3545; color: white; }
+         .badge-priority-medium { background-color: #ffc107; color: #000; }
+         .badge-priority-low { background-color: #6c757d; color: white; }
+         /* شارات الحالة للمهام */
+         .badge-task-new { background-color: #0dcaf0; color: #000; }
+         .badge-task-inprogress { background-color: #ffc107; color: #000; }
+         .badge-task-completed { background-color: #198754; color: white; }
+         .badge-task-onhold { background-color: #6c757d; color: white; } /* مثال لحالة إضافية */
+
+         /* --- Tooltip --- */
+         .tooltip-inner {
+            background-color: #2c2c2c;
+            color: #ffffff;
+            font-family: 'Noto Kufi Arabic', sans-serif; /* Ensure tooltip font matches */
+         }
+         .tooltip .tooltip-arrow::before {
+            border-top-color: #2c2c2c;
+            border-bottom-color: #2c2c2c;
+            border-left-color: #2c2c2c;
+            border-right-color: #2c2c2c;
+         }
+
+         /* --- Reports Section --- */
+         .report-filter .btn {
+             font-size: 0.9rem;
+         }
+         .report-filter .btn.active {
+             background-color: #4f5b93;
+             border-color: #4f5b93;
+             color: white;
+         }
+         .progress { /* Ensure progress bar height */
+             height: 10px;
+             background-color: #e9ecef;
+         }
+         .report-scope-filter label {
+             margin-left: 1rem;
+         }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-building me-2"></i>
+                نظام CRM العقاري
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadContent('dashboard'); return false;">
+                            <i class="fas fa-home me-1"></i> الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadContent('leads'); return false;">
+                            <i class="fas fa-users me-1"></i> العملاء المحتملون
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadContent('requests'); return false;">
+                            <i class="fas fa-clipboard-list me-1"></i> الطلبات
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadContent('meetings'); return false;">
+                            <i class="fas fa-handshake me-1"></i> الاجتماعات
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadContent('tasks'); return false;">
+                            <i class="fas fa-tasks me-1"></i> المهام
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadContent('reports'); return false;">
+                            <i class="fas fa-chart-line me-1"></i> التقارير
+                        </a>
+                    </li>
+                    </ul>
+                <div class="d-flex">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="dropdown-profile-img"></span> <span class="me-2">اسم المستخدم</span> </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                             <li>
+                                <div class="dropdown-item-profile">
+                                    <span class="dropdown-profile-img"></span>
+                                    <div>
+                                        <span class="profile-name">اسم المستخدم</span>
+                                        <small class="profile-phone">05xxxxxxx</small> </div>
+                                </div>
+                             </li>
+                             <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-edit me-2 text-muted"></i>الملف الشخصي</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="loadContent('settings'); return false;"><i class="fas fa-cog me-2 text-muted"></i>الإعدادات</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2 text-danger"></i>تسجيل الخروج</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <div class="card sidebar shadow-sm">
+                    <div class="card-header">
+                        <i class="fas fa-tachometer-alt me-2"></i> لوحة التحكم
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush" id="sidebar-nav">
+                            <a href="#" onclick="loadContent('dashboard'); return false;" class="list-group-item list-group-item-action" data-section="dashboard">
+                                <i class="fas fa-home me-2"></i> الرئيسية
+                            </a>
+                            <a href="#" onclick="loadContent('leads'); return false;" class="list-group-item list-group-item-action" data-section="leads">
+                                <i class="fas fa-users me-2"></i> العملاء المحتملون
+                            </a>
+                            <a href="#" onclick="loadContent('requests'); return false;" class="list-group-item list-group-item-action" data-section="requests">
+                                <i class="fas fa-clipboard-list me-2"></i> إدارة الطلبات
+                            </a>
+                             <a href="#" onclick="loadContent('meetings'); return false;" class="list-group-item list-group-item-action" data-section="meetings">
+                                <i class="fas fa-handshake me-2"></i> إدارة الاجتماعات
+                            </a>
+                            <a href="#" onclick="loadContent('tasks'); return false;" class="list-group-item list-group-item-action" data-section="tasks">
+                                <i class="fas fa-tasks me-2"></i> إدارة المهام
+                            </a>
+                             <a href="#" onclick="loadContent('reports'); return false;" class="list-group-item list-group-item-action" data-section="reports">
+                                <i class="fas fa-chart-line me-2"></i> التقارير
+                            </a>
+                            <a href="#" onclick="loadContent('settings'); return false;" class="list-group-item list-group-item-action" data-section="settings">
+                                <i class="fas fa-cog me-2"></i> الإعدادات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                 </div>
+
+            <div class="col-lg-9">
+                <div id="main-content-area">
+
+                    <div id="content-dashboard" class="content-section">
+                        <h2 class="mb-4"><span><i class="fas fa-tachometer-alt me-2"></i>لوحة التحكم الرئيسية</span></h2>
+                        <p>مرحباً بك في نظام إدارة العلاقات العقارية. استخدم القائمة الجانبية للتنقل بين الأقسام.</p>
+                         <div class="row mb-4">
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm stats-card">
+                                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fas fa-user-tie mb-2"></i>
+                                        <h1 class="display-6">15</h1>
+                                        <p class="card-text mb-0">عميل محتمل</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm stats-card">
+                                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fas fa-file-alt mb-2"></i>
+                                        <h1 class="display-6">8</h1>
+                                        <p class="card-text mb-0">طلبات جديدة</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm stats-card">
+                                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fas fa-calendar-check mb-2"></i>
+                                        <h1 class="display-6">5</h1>
+                                        <p class="card-text mb-0">اجتماعات قادمة</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm stats-card">
+                                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                         <i class="fas fa-exclamation-circle mb-2"></i>
+                                        <h1 class="display-6">12</h1>
+                                        <p class="card-text mb-0">مهام معلقة</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                    <div id="content-leads" class="content-section">
+                        <h2 class="mb-4"><span><i class="fas fa-users me-2"></i>إدارة العملاء المحتملون</span></h2>
+                        <button onclick="toggleForm('add-lead-form')" class="btn btn-primary-custom mb-3">
+                            <i class="fas fa-plus me-1"></i> إضافة عميل محتمل جديد
+                        </button>
+
+                        <form id="add-lead-form" class="form-section card card-body mb-4 bg-light d-none">
+                            <h3 class="mb-3 fs-5">إضافة عميل محتمل</h3>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="lead-name" class="form-label">الاسم<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lead-name" name="lead-name" required placeholder="اسم العميل الكامل">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lead-phone" class="form-label">رقم الهاتف<span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="lead-phone" name="lead-phone" required placeholder="05xxxxxxxx">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lead-email" class="form-label">البريد الإلكتروني (اختياري)</label>
+                                    <input type="email" class="form-control" id="lead-email" name="lead-email" placeholder="example@domain.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lead-source" class="form-label">مصدر الاهتمام<span class="text-danger">*</span></label>
+                                    <select class="form-select" id="lead-source" name="lead-source" required>
+                                        <option selected disabled value="">اختر المصدر...</option>
+                                        <option>الموقع الإلكتروني</option>
+                                        <option>اتصال هاتفي</option>
+                                        <option>وسائل التواصل</option>
+                                        <option>إحالة</option>
+                                        <option>أخرى</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="lead-notes" class="form-label">ملاحظات</label>
+                                    <textarea class="form-control" id="lead-notes" name="lead-notes" rows="3" placeholder="أي تفاصيل إضافية..."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="button" onclick="addLead()" class="btn btn-primary-custom">حفظ العميل</button>
+                                    <button type="button" onclick="toggleForm('add-lead-form')" class="btn btn-secondary-custom me-2">إلغاء</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="card shadow-sm">
+                             <div class="card-header">
+                                 <i class="fas fa-users me-2"></i> قائمة العملاء المحتملين
+                             </div>
+                             <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>الاسم</th>
+                                                <th>الهاتف</th>
+                                                <th>المصدر</th>
+                                                <th>تاريخ الإضافة</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="leads-table-body">
+                                            <tr>
+                                                <td>محمد أحمد</td>
+                                                <td>0512345678</td>
+                                                <td>الموقع الإلكتروني</td>
+                                                <td>2025-04-08</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>سارة خالد</td>
+                                                <td>0587654321</td>
+                                                <td>اتصال هاتفي</td>
+                                                <td>2025-04-07</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>عبدالله فهد</td>
+                                                <td>0555555555</td>
+                                                <td>وسائل التواصل</td>
+                                                <td>2025-04-07</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>فاطمة علي</td>
+                                                <td>0501112233</td>
+                                                <td>إحالة</td>
+                                                <td>2025-04-06</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div id="content-requests" class="content-section">
+                        <h2 class="mb-4"><span><i class="fas fa-clipboard-list me-2"></i>إدارة الطلبات</span></h2>
+                        <button onclick="toggleForm('add-request-form')" class="btn btn-primary-custom mb-3">
+                             <i class="fas fa-plus me-1"></i> إضافة طلب جديد
+                        </button>
+                         <form id="add-request-form" class="form-section card card-body mb-4 bg-light d-none">
+                            <h3 class="mb-3 fs-5">إضافة طلب جديد</h3>
+                            <p class="text-muted">(أضف حقول النموذج هنا: اسم العميل، هاتفه، نوع العقار المطلوب، المنطقة، الميزانية، ملاحظات...)</p>
+                            <button type="button" onclick="addRequest()" class="btn btn-primary-custom">حفظ الطلب</button>
+                            <button type="button" onclick="toggleForm('add-request-form')" class="btn btn-secondary-custom me-2">إلغاء</button>
+                        </form>
+                        <div id="requests-list" class="card shadow-sm">
+                             <div class="card-header"><i class="fas fa-clipboard-list me-2"></i> قائمة الطلبات</div>
+                             <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>العميل</th>
+                                                <th>نوع العقار</th>
+                                                <th>المنطقة</th>
+                                                <th>الحالة</th>
+                                                <th>التاريخ</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>REQ-001</td>
+                                                <td>محمد أحمد</td>
+                                                <td>فيلا</td>
+                                                <td>الرياض - الياسمين</td>
+                                                <td><span class="badge badge-status-progress">قيد البحث</span></td>
+                                                <td>2025-04-08</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>REQ-002</td>
+                                                <td>سارة خالد</td>
+                                                <td>شقة</td>
+                                                <td>جدة - السلامة</td>
+                                                 <td><span class="badge badge-status-found">تم العثور</span></td>
+                                                <td>2025-04-07</td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>REQ-003</td>
+                                                <td>عبدالله فهد</td>
+                                                <td>أرض</td>
+                                                <td>الدمام - الشاطئ</td>
+                                                 <td><span class="badge badge-status-new">جديد</span></td>
+                                                <td>2025-04-07</td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>REQ-004</td>
+                                                <td>فاطمة علي</td>
+                                                <td>فيلا</td>
+                                                <td>الرياض - النرجس</td>
+                                                 <td><span class="badge badge-status-canceled">ملغي</span></td>
+                                                <td>2025-04-06</td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1 disabled" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div id="content-meetings" class="content-section">
+                        <h2 class="mb-4"><span><i class="fas fa-handshake me-2"></i>إدارة الاجتماعات</span></h2>
+                         <button onclick="toggleForm('add-meeting-form')" class="btn btn-primary-custom mb-3">
+                             <i class="fas fa-plus me-1"></i> إضافة اجتماع جديد
+                        </button>
+                         <form id="add-meeting-form" class="form-section card card-body mb-4 bg-light d-none">
+                             <h3 class="mb-3 fs-5">إضافة اجتماع جديد</h3>
+                             <p class="text-muted">(أضف حقول النموذج هنا: موضوع الاجتماع، التاريخ، الوقت، الحاضرون، الموقع...)</p>
+                             <button type="button" onclick="addMeeting()" class="btn btn-primary-custom">حفظ الاجتماع</button>
+                             <button type="button" onclick="toggleForm('add-meeting-form')" class="btn btn-secondary-custom me-2">إلغاء</button>
+                         </form>
+                        <div id="meetings-list" class="card shadow-sm">
+                             <div class="card-header"><i class="fas fa-handshake me-2"></i> قائمة الاجتماعات</div>
+                             <div class="card-body">
+                                <div class="table-responsive">
+                                     <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>الموضوع</th>
+                                                <th>العميل</th>
+                                                <th>التاريخ</th>
+                                                <th>الوقت</th>
+                                                <th>الحالة</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>مناقشة العروض المقدمة</td>
+                                                <td>محمد أحمد</td>
+                                                <td>2025-04-10</td>
+                                                <td>10:00 ص</td>
+                                                <td><span class="badge badge-meeting-scheduled">مجدول</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="إلغاء" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>زيارة عقار رقم #123</td>
+                                                <td>سارة خالد</td>
+                                                <td>2025-04-11</td>
+                                                <td>02:00 م</td>
+                                                <td><span class="badge badge-meeting-scheduled">مجدول</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="إلغاء" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>اجتماع عبر الفيديو</td>
+                                                <td>عبدالله فهد</td>
+                                                <td>2025-04-09</td>
+                                                <td>11:30 ص</td>
+                                                <td><span class="badge badge-meeting-completed">تم</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1 disabled" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger disabled" title="إلغاء" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>اجتماع داخلي</td>
+                                                <td>فريق التسويق</td>
+                                                <td>2025-04-12</td>
+                                                <td>09:00 ص</td>
+                                                <td><span class="badge badge-meeting-canceled">ملغي</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="عرض التفاصيل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1 disabled" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger disabled" title="إلغاء" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div id="content-tasks" class="content-section">
+                        <h2 class="mb-4"><span><i class="fas fa-tasks me-2"></i>إدارة المهام</span></h2>
+                         <button onclick="toggleForm('add-task-form')" class="btn btn-primary-custom mb-3">
+                             <i class="fas fa-plus me-1"></i> إضافة مهمة جديدة
+                        </button>
+                         <form id="add-task-form" class="form-section card card-body mb-4 bg-light d-none">
+                             <h3 class="mb-3 fs-5">إضافة مهمة جديدة</h3>
+                             <div class="row g-3">
+                                 <div class="col-md-12">
+                                     <label for="task-title" class="form-label">عنوان المهمة<span class="text-danger">*</span></label>
+                                     <input type="text" class="form-control" id="task-title" required placeholder="مثال: متابعة العميل X">
+                                 </div>
+                                 <div class="col-md-6">
+                                     <label for="task-type" class="form-label">نوع المهمة<span class="text-danger">*</span></label>
+                                     <select class="form-select" id="task-type" required>
+                                         <option value="" selected disabled>اختر النوع...</option>
+                                         <option value="متابعة">متابعة</option>
+                                         <option value="اتصال">اتصال</option>
+                                         <option value="اجتماع">اجتماع</option>
+                                         <option value="معاملة">معاملة</option>
+                                         <option value="صيانة">صيانة</option>
+                                         <option value="تسويق">تسويق</option>
+                                         <option value="أخرى">أخرى</option>
+                                     </select>
+                                 </div>
+                                  <div class="col-md-6">
+                                     <label for="task-priority" class="form-label">الأولوية<span class="text-danger">*</span></label>
+                                     <select class="form-select" id="task-priority" required>
+                                         <option value="" selected disabled>اختر الأولوية...</option>
+                                         <option value="عالية">عالية</option>
+                                         <option value="متوسطة">متوسطة</option>
+                                         <option value="منخفضة">منخفضة</option>
+                                     </select>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <label for="task-related-to-type" class="form-label">مرتبط بـ<span class="text-danger">*</span></label>
+                                     <select class="form-select" id="task-related-to-type" required>
+                                         <option value="" selected disabled>اختر الكيان...</option>
+                                         <option value="عميل محتمل">عميل محتمل</option>
+                                         <option value="طلب">طلب</option>
+                                         <option value="مالك">مالك</option>
+                                         <option value="مستأجر">مستأجر</option>
+                                         <option value="عقار">عقار</option>
+                                         <option value="فريق">فريق</option>
+                                         <option value="أخرى">أخرى</option>
+                                     </select>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <label for="task-related-to-ref" class="form-label">المرجع/الاسم<span class="text-danger">*</span></label>
+                                     <input type="text" class="form-control" id="task-related-to-ref" required placeholder="اسم العميل، رقم الطلب، عنوان العقار...">
+                                 </div>
+                                  <div class="col-md-6">
+                                     <label for="task-assignee" class="form-label">الموظف المسؤول<span class="text-danger">*</span></label>
+                                     <select class="form-select" id="task-assignee" required>
+                                         <option value="" selected disabled>اختر الموظف...</option>
+                                         <option value="أحمد خالد">أحمد خالد</option>
+                                         <option value="نورة سعد">نورة سعد</option>
+                                         <option value="محمد علي">محمد علي</option>
+                                         <option value="مدير النظام">مدير النظام</option>
+                                     </select>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <label for="task-due-date" class="form-label">تاريخ الاستحقاق<span class="text-danger">*</span></label>
+                                     <input type="date" class="form-control" id="task-due-date" required>
+                                 </div>
+                                 <div class="col-12">
+                                     <label for="task-description" class="form-label">وصف المهمة</label>
+                                     <textarea class="form-control" id="task-description" rows="3" placeholder="تفاصيل إضافية عن المهمة..."></textarea>
+                                 </div>
+                                 <div class="col-12">
+                                     <button type="button" onclick="addTask()" class="btn btn-primary-custom">حفظ المهمة</button>
+                                     <button type="button" onclick="toggleForm('add-task-form')" class="btn btn-secondary-custom me-2">إلغاء</button>
+                                 </div>
+                             </div>
+                         </form>
+                        <div id="tasks-list" class="card shadow-sm">
+                             <div class="card-header"><i class="fas fa-tasks me-2"></i> قائمة المهام</div>
+                              <div class="card-body">
+                                <div class="table-responsive">
+                                     <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>المهمة</th>
+                                                <th>النوع</th>
+                                                <th>مرتبط بـ</th>
+                                                <th>المرجع/الاسم</th>
+                                                <th>المسؤول</th>
+                                                <th>الأولوية</th>
+                                                <th>الاستحقاق</th>
+                                                <th>الحالة</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>متابعة العميل محمد أحمد</td>
+                                                <td>متابعة</td>
+                                                <td>عميل محتمل</td>
+                                                <td>محمد أحمد</td>
+                                                <td>أحمد خالد</td>
+                                                <td><span class="badge badge-priority-high">عالية</span></td>
+                                                <td>2025-04-09</td>
+                                                <td><span class="badge badge-task-inprogress">قيد التنفيذ</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-success me-1" title="إكمال" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>إعداد عرض أسعار</td>
+                                                <td>معاملة</td>
+                                                <td>طلب</td>
+                                                <td>REQ-002</td>
+                                                <td>نورة سعد</td>
+                                                <td><span class="badge badge-priority-medium">متوسطة</span></td>
+                                                <td>2025-04-10</td>
+                                                <td><span class="badge badge-task-new">جديد</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-success me-1" title="إكمال" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>تحديث بيانات المالك</td>
+                                                <td>معاملة</td>
+                                                <td>مالك</td>
+                                                <td>خالد الغامدي</td>
+                                                <td>أحمد خالد</td>
+                                                <td><span class="badge badge-priority-low">منخفضة</span></td>
+                                                <td>2025-04-12</td>
+                                                <td><span class="badge badge-task-new">جديد</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-success me-1" title="إكمال" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>مراجعة عقد الإيجار</td>
+                                                <td>معاملة</td>
+                                                <td>مستأجر</td>
+                                                <td>سليمان العلي</td>
+                                                <td>مدير النظام</td>
+                                                <td><span class="badge badge-priority-high">عالية</span></td>
+                                                <td>2025-04-11</td>
+                                                <td><span class="badge badge-task-completed">مكتمل</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-success me-1 disabled" title="إكمال" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1 disabled" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>تركيب لوحة إعلانية</td>
+                                                <td>تسويق</td>
+                                                <td>عقار</td>
+                                                <td>فيلا الياسمين #15</td>
+                                                <td>محمد علي</td>
+                                                <td><span class="badge badge-priority-medium">متوسطة</span></td>
+                                                <td>2025-04-15</td>
+                                                <td><span class="badge badge-task-inprogress">قيد التنفيذ</span></td>
+                                                 <td>
+                                                    <button class="btn btn-sm btn-outline-success me-1" title="إكمال" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-sm btn-outline-dark-custom me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                              </div>
+                         </div>
+                    </div>
+
+                     <div id="content-reports" class="content-section">
+                        <h2 class="mb-4">
+                            <span><i class="fas fa-chart-line me-2"></i>التقارير</span>
+                            <div class="report-actions">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="printReport()" title="طباعة التقرير" data-bs-toggle="tooltip" data-bs-placement="top">
+                                    <i class="fas fa-print"></i> طباعة
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="exportPdf()" title="تصدير PDF" data-bs-toggle="tooltip" data-bs-placement="top">
+                                    <i class="fas fa-file-pdf"></i> تصدير PDF
+                                </button>
+                            </div>
+                        </h2>
+
+                        <div class="row mb-4 report-filter align-items-center">
+                            <div class="col-md-auto mb-2 mb-md-0">
+                                <label class="form-label fw-bold mb-0 me-2">الفترة:</label>
+                                <div class="btn-group" role="group" aria-label="فلتر الفترة الزمنية">
+                                    <button type="button" class="btn btn-outline-secondary active" onclick="filterReport('daily', this)">يومي</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="filterReport('weekly', this)">أسبوعي</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="filterReport('monthly', this)">شهري</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="filterReport('quarterly', this)">ربع سنوي</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="filterReport('yearly', this)">سنوي</button>
+                                </div>
+                            </div>
+                             <div class="col-md-auto report-scope-filter">
+                                 <label class="form-label fw-bold mb-0 me-2">النطاق:</label>
+                                 <select class="form-select form-select-sm d-inline-block w-auto" id="report-scope" onchange="updateReportScope(this.value)">
+                                     <option value="overall" selected>المنشأة بالكامل</option>
+                                     <option value="employee-ahmed">أحمد خالد</option>
+                                     <option value="employee-noura">نورة سعد</option>
+                                     <option value="employee-mohamed">محمد علي</option>
+                                     <option value="employee-manager">مدير النظام</option>
+                                 </select>
+                             </div>
+                              <small class="d-block text-muted mt-2">(ملاحظة: البيانات المعروضة هي بيانات افتراضية للفترة الشهرية وعلى مستوى المنشأة)</small>
+                        </div>
+
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm report-kpi">
+                                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fas fa-phone-volume mb-2"></i>
+                                        <h1 class="display-6">152</h1>
+                                        <p class="card-text mb-0">إجمالي الاتصالات</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm report-kpi">
+                                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                        <i class="fas fa-check-circle mb-2"></i>
+                                        <h1 class="display-6">25</h1>
+                                        <p class="card-text mb-0">الطلبات المكتملة</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-4 col-sm-6 mb-3">
+                                <div class="card text-center h-100 shadow-sm report-kpi">
+                                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                         <i class="fas fa-tasks mb-2"></i>
+                                        <h1 class="display-6">88</h1>
+                                        <p class="card-text mb-0">المهام المنجزة</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="card shadow-sm">
+                             <div class="card-header"><i class="fas fa-user-check me-2"></i> أداء المهام حسب الموظف (بيانات افتراضية)</div>
+                              <div class="card-body">
+                                <div class="table-responsive">
+                                     <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>اسم الموظف</th>
+                                                <th>المهام المنجزة</th>
+                                                <th>النسبة من الإجمالي</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="employee-performance-body">
+                                            <tr>
+                                                <td>أحمد خالد</td>
+                                                <td>35</td>
+                                                <td>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span class="ms-2">40%</span>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>نورة سعد</td>
+                                                <td>28</td>
+                                                <td>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-info text-dark" role="progressbar" style="width: 32%;" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span class="ms-2">32%</span>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>محمد علي</td>
+                                                <td>20</td>
+                                                <td>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-warning text-dark" role="progressbar" style="width: 23%;" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span class="ms-2">23%</span>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>مدير النظام</td>
+                                                <td>5</td>
+                                                <td>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span class="ms-2">5%</span>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td class="fw-bold">الإجمالي</td>
+                                                <td class="fw-bold">88</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                              </div>
+                         </div>
+                    </div>
+
+                     <div id="content-settings" class="content-section">
+                        <h2 class="mb-4"><span><i class="fas fa-cog me-2"></i>الإعدادات</span></h2>
+                        <div class="card shadow-sm">
+                            <div class="card-header"><i class="fas fa-cog me-2"></i> إعدادات عامة</div>
+                            <div class="card-body">
+                                <p class="text-muted">(محتوى قسم الإعدادات يوضع هنا)</p>
+                                <div class="mb-3 row">
+                                    <label for="setting-email" class="col-sm-3 col-form-label">البريد الإلكتروني للتنبيهات</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="setting-email" value="admin@example.com">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="setting-currency" class="col-sm-3 col-form-label">العملة الافتراضية</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select" id="setting-currency">
+                                            <option selected>ريال سعودي (SAR)</option>
+                                            <option>دولار أمريكي (USD)</option>
+                                            <option>درهم إماراتي (AED)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary-custom">حفظ الإعدادات</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> </div> </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // تفعيل التلميحات (Tooltips)
+        function initializeTooltips() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              // إزالة التلميحات القديمة إذا وجدت لتجنب التكرار
+              var existingTooltip = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+              if (existingTooltip) {
+                existingTooltip.dispose();
+              }
+              return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        }
+
+        // تحميل المحتوى المناسب عند النقر
+        function loadContent(sectionId) {
+            // إخفاء كل أقسام المحتوى
+            const contentSections = document.querySelectorAll('#main-content-area .content-section');
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+                 section.style.display = 'none'; // Ensure hidden
+            });
+
+            // إظهار القسم المطلوب
+            const activeSection = document.getElementById('content-' + sectionId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+                 activeSection.style.display = 'block'; // Ensure shown
+            }
+
+            // تحديث الحالة النشطة في الشريط الجانبي
+            const sidebarLinks = document.querySelectorAll('#sidebar-nav .list-group-item');
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+
+             // تحديث الحالة النشطة في الشريط العلوي
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            let foundActiveNavLink = false;
+             navLinks.forEach(link => {
+                 link.classList.remove('active');
+                 const linkSection = link.getAttribute('onclick')?.match(/loadContent\('([^']+)'\)/)?.[1];
+                 if (linkSection === sectionId) {
+                    link.classList.add('active');
+                    foundActiveNavLink = true;
+                 }
+             });
+             // التأكد من تفعيل "الرئيسية" في الشريط العلوي إذا كانت هي النشطة
+             if (!foundActiveNavLink && sectionId === 'dashboard') {
+                  const homeLink = document.querySelector('.navbar-nav .nav-link'); // يفترض أن الرئيسية هي الأولى
+                  if(homeLink) homeLink.classList.add('active');
+             }
+
+
+            // إخفاء جميع النماذج المفتوحة عند التبديل بين الأقسام
+            const forms = document.querySelectorAll('.form-section');
+            forms.forEach(form => {
+                form.classList.remove('active');
+                form.classList.add('d-none'); // استخدام فئة Bootstrap للإخفاء
+            });
+
+            // إعادة تفعيل التلميحات بعد تحميل المحتوى (قد تكون هناك أزرار جديدة)
+            initializeTooltips();
+        }
+
+        // إظهار أو إخفاء نموذج معين
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.classList.toggle('d-none');
+                form.classList.toggle('active');
+            }
+        }
+
+        // --- وظائف إضافة البيانات (أمثلة وهمية - تحتاج لتنفيذ حقيقي) ---
+
+        function addLead() {
+            console.log("محاولة إضافة عميل محتمل...");
+            const name = document.getElementById('lead-name').value;
+            const phone = document.getElementById('lead-phone').value;
+            const source = document.getElementById('lead-source').value;
+
+            // Basic validation example
+            if (!name || !phone || !source) {
+                alert('يرجى ملء جميع الحقول المطلوبة (*).');
+                return; // Stop execution if validation fails
+            }
+
+            const tableBody = document.getElementById('leads-table-body');
+            const newRow = tableBody.insertRow(0); // Insert at the top
+            newRow.innerHTML = `
+                <td>${escapeHtml(name)}</td>
+                <td>${escapeHtml(phone)}</td>
+                <td>${escapeHtml(source)}</td>
+                <td>${new Date().toLocaleDateString()}</td>
+                <td>
+                     <button class="btn btn-sm btn-outline-primary me-1" title="تعديل" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-edit"></i></button>
+                     <button class="btn btn-sm btn-outline-danger" title="حذف" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fas fa-trash"></i></button>
+                </td>
+            `;
+            // Re-initialize tooltips for new buttons
+            newRow.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
+
+            document.getElementById('add-lead-form').reset();
+            toggleForm('add-lead-form');
+            alert('تمت إضافة العميل المحتمل (بشكل مؤقت في الواجهة).');
+
+        }
+
+        function addRequest() {
+             console.log("محاولة إضافة طلب عميل...");
+             alert('وظيفة إضافة الطلب (تحتاج لتنفيذ وحفظ البيانات).');
+             // (أضف منطق قراءة النموذج وإضافة البيانات هنا)
+             toggleForm('add-request-form');
+        }
+
+        function addMeeting() {
+             console.log("محاولة إضافة اجتماع...");
+             alert('وظيفة إضافة الاجتماع (تحتاج لتنفيذ وحفظ البيانات).');
+             // (أضف منطق قراءة النموذج وإضافة البيانات هنا)
+             toggleForm('add-meeting-form');
+        }
+
+        function addTask() {
+             console.log("محاولة إضافة مهمة...");
+             // Read data from the improved form
+             const title = document.getElementById('task-title').value;
+             const type = document.getElementById('task-type').value;
+             const priority = document.getElementById('task-priority').value;
+             const relatedToType = document.getElementById('task-related-to-type').value;
+             const relatedToRef = document.getElementById('task-related-to-ref').value;
+             const assignee = document.getElementById('task-assignee').value;
+             const dueDate = document.getElementById('task-due-date').value;
+
+             // Basic validation
+             if (!title || !type || !priority || !relatedToType || !relatedToRef || !assignee || !dueDate) {
+                 alert('يرجى ملء جميع الحقول المطلوبة (*).');
+                 return;
+             }
+
+             alert('وظيفة إضافة المهمة (تحتاج لتنفيذ وحفظ البيانات).');
+             // Logic to add the task to the table (similar to addLead) would go here
+             // Remember to include the new fields (type, relatedToType, relatedToRef)
+             // and use appropriate badge classes based on priority/status
+
+             document.getElementById('add-task-form').reset();
+             toggleForm('add-task-form');
+        }
+
+        // دالة بسيطة لتجنب حقن HTML بسيط
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return String(unsafe) // Ensure it's a string
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+        // فلتر التقارير (للتأثير البصري فقط)
+        function filterReport(period, buttonElement) {
+            console.log("تصفية التقرير حسب الفترة:", period);
+            // إزالة الفئة النشطة من جميع الأزرار في المجموعة
+            const buttons = buttonElement.closest('.btn-group').querySelectorAll('.btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            // إضافة الفئة النشطة للزر المضغوط
+            buttonElement.classList.add('active');
+            // ملاحظة: هنا يجب أن يتم استدعاء دالة لجلب وتحديث بيانات التقرير الفعلية من الخادم
+            alert(`تم اختيار التقرير ${buttonElement.textContent}. (البيانات المعروضة لا تزال افتراضية)`);
+        }
+
+        // تحديث نطاق التقرير (للتأثير البصري فقط)
+        function updateReportScope(scope) {
+             console.log("تحديث نطاق التقرير إلى:", scope);
+             const employeeTable = document.getElementById('employee-performance-body');
+             if (scope === 'overall') {
+                 // نظرياً: عرض بيانات جميع الموظفين
+                 alert('عرض تقرير المنشأة بالكامل. (البيانات المعروضة لا تزال افتراضية)');
+                 if(employeeTable) employeeTable.closest('.card').style.display = 'block'; // Show table
+             } else {
+                 // نظرياً: عرض بيانات الموظف المحدد فقط
+                 const employeeName = document.querySelector(`#report-scope option[value="${scope}"]`).textContent;
+                 alert(`عرض تقرير الموظف: ${employeeName}. (البيانات المعروضة لا تزال افتراضية)`);
+                 // في التطبيق الحقيقي، قد تخفي جدول الإجمالي وتظهر بطاقة للموظف المحدد
+                 if(employeeTable) employeeTable.closest('.card').style.display = 'none'; // Hide table for simplicity
+             }
+             // ملاحظة: هنا يجب أن يتم استدعاء دالة لجلب وتحديث بيانات التقرير الفعلية من الخادم
+        }
+
+        // وظائف أزرار التقرير (وهمية)
+        function printReport() {
+            alert('وظيفة الطباعة تحتاج إلى تنفيذ (عادةً عبر JavaScript window.print() أو مكتبة متخصصة).');
+            // window.print(); // Basic browser print
+        }
+        function exportPdf() {
+             alert('وظيفة تصدير PDF تحتاج إلى تنفيذ (عادةً عبر مكتبة JavaScript مثل jsPDF أو من خلال الخادم).');
+        }
+
+
+        // تحميل لوحة التحكم الرئيسية عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            loadContent('dashboard'); // Start with dashboard view
+            initializeTooltips(); // Initialize tooltips on initial load
+        });
+    </script>
+</body>
+</html>
