@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام متابعة المهام والاتصالات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-['Noto_Kufi_Arabic']">
+    <!-- Navbar -->
+    <nav class="bg-indigo-800 text-white shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-building ml-2"></i>
+                    <span class="text-xl font-semibold">نظام CRM العقاري</span>
+                </div>
+                <div class="hidden md:flex space-x-4 space-x-reverse">
+                    <a href="#" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-home ml-1"></i>الرئيسية
+                    </a>
+                    <a href="#" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-users ml-1"></i>العملاء
+                    </a>
+                    <a href="#" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-tasks ml-1"></i>المهام
+                    </a>
+                    <a href="#" class="px-3 py-2 rounded hover:bg-indigo-700 transition">
+                        <i class="fas fa-chart-line ml-1"></i>التقارير
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 space-x-reverse focus:outline-none">
+                            <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="hidden md:block">اسم المستخدم</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-indigo-800 text-white p-4">
+                        <i class="fas fa-tachometer-alt ml-2"></i>
+                        لوحة التحكم
+                    </div>
+                    <div class="p-2">
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-home ml-2"></i>الرئيسية
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-users ml-2"></i>العملاء المحتملون
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-clipboard-list ml-2"></i>إدارة الطلبات
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-handshake ml-2"></i>إدارة الاجتماعات
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-tasks ml-2"></i>إدارة المهام
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-chart-line ml-2"></i>التقارير
+                        </a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded transition">
+                            <i class="fas fa-cog ml-2"></i>الإعدادات
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-3">
+                <!-- Dashboard Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <i class="fas fa-user-tie text-2xl text-indigo-800 mb-4"></i>
+                        <div class="text-3xl font-bold text-gray-800">15</div>
+                        <p class="text-gray-600">عميل محتمل</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <i class="fas fa-file-alt text-2xl text-indigo-800 mb-4"></i>
+                        <div class="text-3xl font-bold text-gray-800">8</div>
+                        <p class="text-gray-600">طلبات جديدة</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <i class="fas fa-calendar-check text-2xl text-indigo-800 mb-4"></i>
+                        <div class="text-3xl font-bold text-gray-800">5</div>
+                        <p class="text-gray-600">اجتماعات قادمة</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <i class="fas fa-exclamation-circle text-2xl text-indigo-800 mb-4"></i>
+                        <div class="text-3xl font-bold text-gray-800">12</div>
+                        <p class="text-gray-600">مهام معلقة</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                            <i class="fas fa-clock ml-2"></i>
+                            آخر النشاطات
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4 bg-gray-50 rounded">
+                                <div class="ml-4 p-2 bg-blue-100 rounded-full">
+                                    <i class="fas fa-user-plus text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">عميل جديد</h3>
+                                    <p class="text-sm text-gray-600">تم إضافة محمد أحمد كعميل محتمل</p>
+                                    <span class="text-xs text-gray-500">منذ 5 دقائق</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-gray-50 rounded">
+                                <div class="ml-4 p-2 bg-green-100 rounded-full">
+                                    <i class="fas fa-check text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">اكتمال مهمة</h3>
+                                    <p class="text-sm text-gray-600">تم إكمال مراجعة عقد الإيجار</p>
+                                    <span class="text-xs text-gray-500">منذ ساعة</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-gray-50 rounded">
+                                <div class="ml-4 p-2 bg-yellow-100 rounded-full">
+                                    <i class="fas fa-calendar text-yellow-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">اجتماع جديد</h3>
+                                    <p class="text-sm text-gray-600">تم جدولة اجتماع مع العميل سارة خالد</p>
+                                    <span class="text-xs text-gray-500">منذ 3 ساعات</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add any necessary JavaScript here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize any components or event listeners
+        });
+    </script>
+</body>
+</html>
